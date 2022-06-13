@@ -10,7 +10,7 @@ import javafx.geometry.Insets;
 
 public class FenVueSimpleClient extends Stage {
 	
-	Client cli = new Client("LECLERC", "Cleunay", "Rennes", 1314, 35000, 778697219, 1337, "non-binaire", "123 help", "Kekistan");
+	Clientihm cli = new Clientihm("LECLERC", "Cleunay", 1314, 35000, "Oui.", "ben ça a un toit", "Un.");
 	
 	// les composants de la fenetre
 	private GridPane	racine			= new GridPane();
@@ -45,11 +45,14 @@ public class FenVueSimpleClient extends Stage {
 	private Parent creerContenu() {
 		
 		// A FAIRE : lier les TextFields aux propriétés de l'objet cliloye
-		txtPrenom.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(cli.getPrenom()), cli.PrenomProperty()));
+		txtID.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(cli.getId_client()), cli.id_clientProperty()));
+		txtPrenom.textProperty().bind(cli.prenomProperty());
 		txtNom.textProperty().bind(cli.nomProperty());
-		txtVille.textProperty().bind(cli.VilleProperty());
-		txtDepartement.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(cli.getDept()), cli.deptProperty()));
-		
+		txtReserv.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(cli.getNum_reservation()), cli.num_reservationProperty()));
+		txtEmplac.textProperty().bind(Bindings.createStringBinding(()->String.valueOf(cli.getNum_emplacement()), cli.num_emplacementProperty()));
+		txtTypeemplac.textProperty().bind(cli.typemplacementProperty());
+		txtTypeMH.textProperty().bind(cli.typeMHProperty());
+		txtperiodreserv.textProperty().bind(cli.periode_reservProperty());
 		
 		bnChangerNom.setPrefWidth(100);
 		bnChangerNom.setOnAction(e -> {
