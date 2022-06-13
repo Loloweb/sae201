@@ -7,9 +7,10 @@ public class Reservation {
 	private String date_debut;
 	private String date_fin;
 	private int num_reservation;
+	private int numEmplacement;
 	private ArrayList<Document> MesDocuments;
 	
-	public Reservation(String etat, String date_debut, String date_fin, int num_reservation) {
+	public Reservation(String etat, String date_debut, String date_fin, int num_reservation,int numEmplacement) {
 		this.etat = etat;
 		this.date_debut = date_debut;
 		this.date_fin = date_fin;
@@ -30,6 +31,10 @@ public class Reservation {
 
 	public int getNum_reservation() {
 		return this.num_reservation;
+	}
+	
+	public int getNumEmplacement() {
+		return this.numEmplacement;
 	}
 	
 	public void enregistreDocument(Document d) {
