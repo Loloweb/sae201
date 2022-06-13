@@ -1,4 +1,4 @@
-package sae201;
+package projet;
 
 public class Mobil_Home extends Reservation{
 	private String categorie;

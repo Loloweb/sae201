@@ -1,4 +1,4 @@
-package sae201;
+package projet;
 
 public class Contrat extends Document{
 	private String valeur;
