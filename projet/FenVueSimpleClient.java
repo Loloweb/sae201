@@ -14,8 +14,7 @@ public class FenVueSimpleClient extends Stage {
 	
 	// les composants de la fenetre
 	private GridPane	racine			= new GridPane();
-	private HBox		zoneBoutons		= new HBox();
-	private Label 		lblId	= new Label("ID :");
+	private Label 		lblID	= new Label("ID :");
 	private Label 		lblNom			= new Label("Nom :");
 	private Label 		lblPrenom	= new Label("Prenom :");
 	private Label 		lblReserv		= new Label("N° Réservation :");
@@ -31,6 +30,12 @@ public class FenVueSimpleClient extends Stage {
 	private TextField	txtTypeemplac			= new TextField();
 	private TextField	txtTypeMH			= new TextField();
 	private TextField	txtperiodreserv			= new TextField();
+	
+	private MenuItem optionAjouter = new MenuItem("Ajouter...");
+	private MenuItem optionModifier = new MenuItem("Modifier...");
+	private MenuItem optionSupprimer = new MenuItem("Supprimer");
+	
+	private ContextMenu menu = new ContextMenu(optionAjouter,new SeparatorMenuItem(),optionModifier,new SeparatorMenuItem(),optionSupprimer);
 	
 	// constructeur : initialisation de la fenetre
 	public FenVueSimpleClient(){
@@ -53,23 +58,15 @@ public class FenVueSimpleClient extends Stage {
 		txtTypeemplac.textProperty().bind(cli.typemplacementProperty());
 		txtTypeMH.textProperty().bind(cli.typeMHProperty());
 		txtperiodreserv.textProperty().bind(cli.periode_reservProperty());
-		
-		bnChangerNom.setPrefWidth(100);
-		bnChangerNom.setOnAction(e -> {
-			cli.setNom("BIRAUD");
-		});
-		
-		bnChangerVille.setPrefWidth(100);
-		bnChangerVille.setOnAction(e -> {
-			cli.setVille("INGENIEUR");
-		});
 
-		racine.addRow(0, lblPrenom, txtPrenom);
-		racine.addRow(1, lblNom, txtNom);
-		racine.addRow(2, lblVille, txtVille);
-		racine.addRow(3, lblDepartement, txtDepartement);
-		zoneBoutons.getChildren().addAll(bnChangerNom, bnChangerVille);
-		racine.add(zoneBoutons, 1, 4);
+		racine.addRow(0, lblID, txtID);
+		racine.addRow(1, lblPrenom, txtPrenom);
+		racine.addRow(2, lblNom, txtNom);
+		racine.addRow(3, lblReserv, txtReserv);
+		racine.addRow(4, lblEmplac, txtEmplac);
+		racine.addRow(5, lblTypeemplac, txtTypeemplac);
+		racine.addRow(6, lblTypeMH, txtTypeMH);
+		racine.addRow(7, lblperiodreserv, txtperiodreserv);
 		racine.setHgap(10);
 		racine.setVgap(10);
 		racine.setPadding(new Insets(10));

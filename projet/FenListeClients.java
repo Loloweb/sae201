@@ -17,6 +17,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 
 public class FenListeClients extends Stage {
+	Client cli1 = new Client("LECLERC", "Cleunay", "Rennes", 1234, 35000, 80666666, 5678, "Personne", "123 a l'aide", "Bretagne");
+	Client cli2 = new Client("MCAFEE", "John", "Everywhere", 1337, 0, 694206942, 1111, "Legende", "Variable", "Amerique");
 	static private ObservableList<Client> lesClients = FXCollections.observableArrayList();
 	// les composants de la fenetre
 	private AnchorPane  		racine			= new AnchorPane();
@@ -25,6 +27,12 @@ public class FenListeClients extends Stage {
 	private Button 				bnModifier 		= new Button("Modifier...");
 	private Button 				bnSupprimer 	= new Button("Supprimer");
 	private Button 				bnFermer 		= new Button("Fermer");
+	
+	private MenuItem optionAjouter = new MenuItem("Ajouter...");
+	private MenuItem optionModifier = new MenuItem("Modifier...");
+	private MenuItem optionSupprimer = new MenuItem("Supprimer");
+	
+	private ContextMenu menu = new ContextMenu(optionAjouter,new SeparatorMenuItem(),optionModifier,new SeparatorMenuItem(),optionSupprimer);
 
 	// constructeur : initialisation de la fenetre
 	public FenListeClients(){
@@ -52,19 +60,33 @@ public class FenListeClients extends Stage {
 		tableClients.getColumns().add(colonne5); */
 				
 		tableClients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		tableClients.setContextMenu(menu);
 			
 		// detection et traitement des evenements
 		bnAjouter.setPrefWidth(100);
-		
+		bnAjouter.setOnAction(e -> ajouterClient(cli1));
 		
 		bnModifier.setPrefWidth(100);
 		BooleanBinding rien = Bindings.equal(tableClients.getSelectionModel().selectedIndexProperty(), -1);
-		
+		bnModifier.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
+		bnModifier.setOnAction(e -> { supprimerClient(tableClients.getSelectionModel().getSelectedItem());
+									  ajouterClient(cli2);
+									  });
 	
 		bnSupprimer.setPrefWidth(100);
+		bnSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
+		bnSupprimer.setOnAction(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION,
+					"Supprimer le client?",ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Suppression...");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				supprimerClient(tableClients.getSelectionModel().getSelectedItem());
+			}
+		});
 
-		
 		bnFermer.setPrefWidth(100);
+		bnFermer.setOnAction(e -> System.exit(0));
 
 		// creation du Scene graph
 		AnchorPane.setTopAnchor(tableClients, 10.0);
@@ -101,6 +123,7 @@ public class FenListeClients extends Stage {
 	public void ajouterClient(Client e) {
 		lesClients.add(e);
 	}
+	
 	public void modifierClient(Client e) {
 		boolean trouve = false;
 		int i=0;
