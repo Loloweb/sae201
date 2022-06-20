@@ -1,4 +1,4 @@
-//package projet;
+package projet;
 
 import javafx.beans.property.*;
 

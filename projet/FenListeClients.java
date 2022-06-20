@@ -17,12 +17,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 
 public class FenListeClients extends Stage {
-	Client cli1 = new Client("LECLERC", "Cleunay", "Rennes", 1234, 35000, 80666666, 5678, "Personne", "123 a l'aide", "Bretagne");
-	Client cli2 = new Client("MCAFEE", "John", "Everywhere", 1337, 0, 694206942, 1111, "Legende", "Variable", "Amerique");
-	static private ObservableList<Client> lesClients = FXCollections.observableArrayList();
+	Clientihm cli1 = new Clientihm("LECLERC", "Cleunay", 1314, 35000, "Oui.", "ben ça a un toit", "Un.");
+	Clientihm cli2 = new Clientihm("MCAFEE", "John", 1337, 694206942, "Variable", "Tout ce qui est vivable", "Un.");
+	static private ObservableList<Clientihm> lesClients = FXCollections.observableArrayList();
 	// les composants de la fenetre
 	private AnchorPane  		racine			= new AnchorPane();
-	private TableView<Client> 	tableClients	= new TableView<Client>();
+	private TableView<Clientihm> 	tableClients	= new TableView<Clientihm>();
 	private Button 				bnAjouter 		= new Button("Ajouter...");
 	private Button 				bnModifier 		= new Button("Modifier...");
 	private Button 				bnSupprimer 	= new Button("Supprimer");
@@ -43,17 +43,17 @@ public class FenListeClients extends Stage {
 	}
 	
 	private Parent creerContenu() {		
-		TableColumn<Client,Integer> colonne1 = new TableColumn<Client,Integer>("ID");
-		colonne1.setCellValueFactory(new PropertyValueFactory<Client,Integer>("id_client"));	
+		TableColumn<Clientihm,Integer> colonne1 = new TableColumn<Clientihm,Integer>("ID");
+		colonne1.setCellValueFactory(new PropertyValueFactory<Clientihm,Integer>("id_client"));	
 		tableClients.getColumns().add(colonne1);
-		TableColumn<Client, String> colonne2 = new TableColumn<Client,String>("Nom");
-		colonne2.setCellValueFactory(new PropertyValueFactory<Client, String>("nom"));
+		TableColumn<Clientihm, String> colonne2 = new TableColumn<Clientihm,String>("Nom");
+		colonne2.setCellValueFactory(new PropertyValueFactory<Clientihm, String>("nom"));
 		tableClients.getColumns().add(colonne2);
-		TableColumn<Client, String> colonne3 = new TableColumn<Client,String>("Prénom");
-		colonne3.setCellValueFactory(new PropertyValueFactory<Client, String>("prenom"));
+		TableColumn<Clientihm, String> colonne3 = new TableColumn<Clientihm,String>("Prénom");
+		colonne3.setCellValueFactory(new PropertyValueFactory<Clientihm, String>("prenom"));
 		tableClients.getColumns().add(colonne3);
-		TableColumn<Client,Integer> colonne4 = new TableColumn<Client,Integer>("N° réservation");
-		colonne4.setCellValueFactory(new PropertyValueFactory<Client, Integer>("num_reservation"));
+		TableColumn<Clientihm,Integer> colonne4 = new TableColumn<Clientihm,Integer>("N° réservation");
+		colonne4.setCellValueFactory(new PropertyValueFactory<Clientihm, Integer>("num_reservation"));
 		tableClients.getColumns().add(colonne4);
 		/* TableColumn<Reservation,Integer> colonne5 = new TableColumn<Reservation, Integer>("N° emplacement");
 		colonne5.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("numEmplacement"));
@@ -105,7 +105,7 @@ public class FenListeClients extends Stage {
 		return racine;
 	}
 	
-	public void init(ArrayList<Client> liste) {
+	public void init(ArrayList<Clientihm> liste) {
 		lesClients.clear();
 		for (int i=0; i<liste.size() ; i++) {
 			lesClients.add(liste.get(i));
@@ -113,18 +113,18 @@ public class FenListeClients extends Stage {
 		tableClients.setItems(lesClients);
 	}
 
-	public static ObservableList<Client> getLesClients() {
+	public static ObservableList<Clientihm> getLesClients() {
 		return lesClients;
 	}
-	public static void setLesClients(ObservableList<Client> lesClients) {
+	public static void setLesClients(ObservableList<Clientihm> lesClients) {
 		FenListeClients.lesClients = lesClients;
 	}
 	
-	public void ajouterClient(Client e) {
+	public void ajouterClient(Clientihm e) {
 		lesClients.add(e);
 	}
 	
-	public void modifierClient(Client e) {
+	public void modifierClient(Clientihm e) {
 		boolean trouve = false;
 		int i=0;
 		while (!trouve && i<lesClients.size()) {
@@ -135,12 +135,12 @@ public class FenListeClients extends Stage {
 			i++;
 		}
 	}
-	public void supprimerClient(Client e) {
+	public void supprimerClient(Clientihm e) {
 		lesClients.remove(e);
 //		boolean trouve = false;
 //		int i=0;
 //		while (!trouve && i<lesClients.size()) {
-//			if (lesClients.get(i).getMatricule()==mat){
+//			if (lesClients.get(i).getId_client()==id){
 //				lesClients.remove(i);
 //				trouve = true;
 //			}

@@ -1,4 +1,4 @@
-//package projet;
+package projet;
 
 import java.util.ArrayList;
 import javafx.beans.property.*;
