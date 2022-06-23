@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import presentation.Employe;
-import presentation.Principale;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -65,7 +63,7 @@ public class FenDetailClient extends Stage {
 				txtTypeMH.getText(),
 				txtperiodreserv.getText()
 				);	
-			Main.modifierClient(cli);
+			//todo : modifier ok
 			this.close();
 		});
 
@@ -88,34 +86,5 @@ public class FenDetailClient extends Stage {
 		racine.setVgap(15);
 		racine.setPadding(new Insets(10));
 		return racine;
-	}
-	
-	public void init(ArrayList<Integer> lesSup, ArrayList<Integer> lesDep, int mat, String nom, String poste, int sup, String emb, float sal, float prime, int dep) {
-		txtMatricule.setText(""+mat);
-		txtNom.setText(nom);
-		txtPoste.setText(poste);
-		if (!emb.equals("")) {
-			String dateemb[] = emb.split("/");
-			int annee = Integer.parseInt(dateemb[0]);
-			int mois = Integer.parseInt(dateemb[1]);
-			int jour = Integer.parseInt(dateemb[2]);
-			dpEmbauche.setValue(LocalDate.of(annee, mois, jour));
-		}
-		txtSalaire.clear();
-		if (sal!=-1) txtSalaire.setText(""+sal);
-		txtPrime.clear();
-		if (prime!=-1) txtPrime.setText(""+prime);
-		this.cbSuperieur.getItems().clear();
-		for (int i=0; i<lesSup.size() ; i++) {
-			this.cbSuperieur.getItems().add(""+lesSup.get(i));
-		}
-		this.cbSuperieur.getItems().add(0, "- aucun -");
-		this.cbSuperieur.setValue(cbSuperieur.getItems().get(0));
-		
-		this.cbDept.getItems().clear();
-		for (int i=0; i<lesDep.size() ; i++) {
-			this.cbDept.getItems().add(""+lesDep.get(i));
-		}
-		this.cbDept.setValue(cbDept.getItems().get(0));
 	}
 }

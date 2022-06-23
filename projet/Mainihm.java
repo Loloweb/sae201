@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 public class Mainihm extends Application{
+	static private FenDate fNvDate = new FenDate();
 	
 	public void start(Stage s) {
 		s = new FenListeClients();
@@ -13,5 +14,9 @@ public class Mainihm extends Application{
 
 	public static void main(String[] args) {
 		Application.launch();
+	}
+	
+	static public void ouvrirDate() {
+		fNvDate.show();
 	}
 }

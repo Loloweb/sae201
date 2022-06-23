@@ -17,16 +17,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 
 public class FenListeClients extends Stage {
-	Clientihm cli1 = new Clientihm("LECLERC", "Cleunay", 1314, 35000, "Oui.", "ben ça a un toit", "Un.");
-	Clientihm cli2 = new Clientihm("MCAFEE", "John", 1337, 694206942, "Variable", "Tout ce qui est vivable", "Un.");
+	Clientihm cli1 = new Clientihm("LECLERC", "Cleunay", 1314, 35000, "Oui.", "ben ça a un toit", "07/07/2022");
+	Clientihm cli2 = new Clientihm("MCAFEE", "John", 1337, 694206942, "Variable", "Tout ce qui est vivable", "22/07/2022");
 	static private ObservableList<Clientihm> lesClients = FXCollections.observableArrayList();
 	// les composants de la fenetre
 	private AnchorPane  		racine			= new AnchorPane();
 	private TableView<Clientihm> 	tableClients	= new TableView<Clientihm>();
 	private Button 				bnAjouter 		= new Button("Ajouter...");
-	private Button 				bnModifier 		= new Button("Modifier...");
 	private Button 				bnSupprimer 	= new Button("Supprimer");
 	private Button 				bnFermer 		= new Button("Fermer");
+	private Button				bnDate			= new Button("Selectionner date");
 	
 	private MenuItem optionAjouter = new MenuItem("Ajouter...");
 	private MenuItem optionModifier = new MenuItem("Modifier...");
@@ -39,10 +39,17 @@ public class FenListeClients extends Stage {
 		this.setTitle("Gestion des clients");
 		this.setResizable(true);
 		this.sizeToScene();
+		this.setMinWidth(600);
+		this.setMinHeight(600);
 		this.setScene(new Scene(creerContenu()));	
 	}
 	
-	private Parent creerContenu() {		
+	private Parent creerContenu() {
+		ajouterClient(cli1);
+		ajouterClient(cli2);
+		
+		BooleanBinding rien = Bindings.equal(tableClients.getSelectionModel().selectedIndexProperty(), -1);
+		
 		TableColumn<Clientihm,Integer> colonne1 = new TableColumn<Clientihm,Integer>("ID");
 		colonne1.setCellValueFactory(new PropertyValueFactory<Clientihm,Integer>("id_client"));	
 		tableClients.getColumns().add(colonne1);
@@ -64,14 +71,12 @@ public class FenListeClients extends Stage {
 			
 		// detection et traitement des evenements
 		bnAjouter.setPrefWidth(100);
-		bnAjouter.setOnAction(e -> ajouterClient(cli1));
+		bnAjouter.disableProperty().bind(Bindings.when(rien).then(true).otherwise(true));
 		
-		bnModifier.setPrefWidth(100);
-		BooleanBinding rien = Bindings.equal(tableClients.getSelectionModel().selectedIndexProperty(), -1);
-		bnModifier.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
-		bnModifier.setOnAction(e -> { supprimerClient(tableClients.getSelectionModel().getSelectedItem());
-									  ajouterClient(cli2);
-									  });
+		bnDate.setPrefWidth(100);
+		bnDate.setOnAction(e -> {
+			Mainihm.ouvrirDate();
+		});
 	
 		bnSupprimer.setPrefWidth(100);
 		bnSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
@@ -95,13 +100,13 @@ public class FenListeClients extends Stage {
 		AnchorPane.setBottomAnchor(tableClients, 10.0);
 		AnchorPane.setTopAnchor(bnAjouter, 30.0);
 		AnchorPane.setRightAnchor(bnAjouter, 10.0);
-		AnchorPane.setTopAnchor(bnModifier, 80.0);
-		AnchorPane.setRightAnchor(bnModifier, 10.0);
+		AnchorPane.setTopAnchor(bnDate, 80.0);
+		AnchorPane.setRightAnchor(bnDate, 10.0);
 		AnchorPane.setTopAnchor(bnSupprimer, 130.0);
 		AnchorPane.setRightAnchor(bnSupprimer, 10.0);
 		AnchorPane.setBottomAnchor(bnFermer, 10.0);
 		AnchorPane.setRightAnchor(bnFermer, 10.0);
-		racine.getChildren().addAll(tableClients, bnAjouter, bnModifier, bnSupprimer, bnFermer);
+		racine.getChildren().addAll(tableClients, bnAjouter, bnDate, bnSupprimer, bnFermer);
 		return racine;
 	}
 	
@@ -132,7 +137,7 @@ public class FenListeClients extends Stage {
 				lesClients.set(i, e);
 				trouve = true;
 			}
-			i++;
+		i++;
 		}
 	}
 	public void supprimerClient(Clientihm e) {
