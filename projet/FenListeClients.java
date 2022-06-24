@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -21,13 +22,12 @@ public class FenListeClients extends Stage {
 	private Button 				bnConsulter 		= new Button("Consulter");
 	private Button 				bnSupprimer 	= new Button("Supprimer");
 	private Button 				bnFermer 		= new Button("Fermer");
-	private Button				bnDate			= new Button("Selectionner date");
+	private Button				bnDate			= new Button("Période");
 	
-	private MenuItem optionConsulter = new MenuItem("Consulter...");
-	private MenuItem optionModifier = new MenuItem("Modifier...");
+	private MenuItem optionConsulter = new MenuItem("Consulter");
 	private MenuItem optionSupprimer = new MenuItem("Supprimer");
 	
-	private ContextMenu menu = new ContextMenu(optionConsulter,new SeparatorMenuItem(),optionModifier,new SeparatorMenuItem(),optionSupprimer);
+	private ContextMenu menu = new ContextMenu(optionConsulter,new SeparatorMenuItem(), new SeparatorMenuItem(),optionSupprimer);
 
 	//Constructeur
 	
@@ -35,7 +35,7 @@ public class FenListeClients extends Stage {
 		this.setTitle("Gestion des clients");
 		this.setResizable(true);
 		this.sizeToScene();
-		this.setMinWidth(600);
+		this.setMinWidth(575);
 		this.setMinHeight(600);
 		this.setScene(new Scene(creerContenu()));	
 	}
@@ -73,11 +73,23 @@ public class FenListeClients extends Stage {
 			
 		// detection et traitement des evenements
 		
+		//Double Click
+		
+		getTableClients().setOnMouseClicked(e -> {
+			if (e.getClickCount()==2 && e.getButton()==MouseButton.PRIMARY) {
+				Mainihm.ouvrirDetails();
+			}
+		});
+		
 		//Bouton Consulter
 		
 		bnConsulter.setPrefWidth(100);
 		bnConsulter.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
 		bnConsulter.setOnAction(e -> {
+			Mainihm.ouvrirDetails();
+		});
+		
+		optionConsulter.setOnAction(e -> {
 			Mainihm.ouvrirDetails();
 		});
 		
@@ -93,6 +105,16 @@ public class FenListeClients extends Stage {
 		bnSupprimer.setPrefWidth(100);
 		bnSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
 		bnSupprimer.setOnAction(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION,
+					"Supprimer le client?",ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Suppression...");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				Mainihm.getLesClients().remove(tableClients.getSelectionModel().getSelectedIndex()); 
+			}
+		});
+		
+		optionSupprimer.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION,
 					"Supprimer le client?",ButtonType.YES, ButtonType.NO);
 			alert.setTitle("Suppression...");
