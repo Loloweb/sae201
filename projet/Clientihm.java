@@ -1,5 +1,7 @@
 package projet;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.*;
 
 public class Clientihm {
@@ -13,6 +15,7 @@ public class Clientihm {
 	private StringProperty typemplacement;
 	private StringProperty typeMH;
 	private StringProperty periode_reserv;
+	private ArrayList<Reservationihm> mesReservations;
 	
 	public Clientihm(String nom, String prenom, Integer num_reservation, Integer num_emplacement, String typemplacement, String typeMH, String periode_reserv) {
 		this.nom = new SimpleStringProperty(nom);
@@ -23,6 +26,7 @@ public class Clientihm {
 		this.typeMH = new SimpleStringProperty(typeMH);
 		this.periode_reserv = new SimpleStringProperty(periode_reserv);
 		this.id_client = new SimpleIntegerProperty(compteur);
+		this.mesReservations = new ArrayList<Reservationihm>();
 		compteur++;
 	}
 
@@ -120,5 +124,13 @@ public class Clientihm {
 	
 	public StringProperty periode_reservProperty() {
 		return this.periode_reserv;
+	}
+	
+	public void ajoutReservation(Reservationihm r) {
+		this.mesReservations.add(r);
+	}
+	
+	public ArrayList<Reservationihm> getReservation() {
+		return this.mesReservations;
 	}
 }

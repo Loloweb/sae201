@@ -25,16 +25,16 @@ public class FenDetailClient extends Stage {
 	private Label 		lblTypeemplac			= new Label("Type Emplacement :");
 	private Label 		lblTypeMH			= new Label("Type Mobil-Home :");
 	private Label 		lblperiodreserv			= new Label("Période de réservation :");
-	private TextField	txtID			= new TextField();
-	private TextField	txtNom			= new TextField();
-	private TextField	txtPrenom	= new TextField();
-	private TextField	txtReserv		= new TextField();
-	private TextField	txtEmplac	= new TextField();
-	private TextField	txtTypeemplac			= new TextField();
-	private TextField	txtTypeMH			= new TextField();
-	private TextField	txtperiodreserv			= new TextField();
-	private Button 				bnOK 			= new Button("OK");
-	private Button 				bnAnnuler 		= new Button("Anuler");
+	private Label	txtID			= new Label();
+	private Label	txtNom			= new Label();
+	private Label	txtPrenom	= new Label();
+	private Label	txtReserv		= new Label();
+	private Label	txtEmplac	= new Label();
+	private Label	txtTypeemplac			= new Label();
+	private Label	txtTypeMH			= new Label();
+	private Label	txtperiodreserv			= new Label();
+	private Button 				bnOK			= new Button("OK");
+	private Button 				bnSupprimer 		= new Button("Supprimer");
 	
 	// constructeur : initialisation de la fenetre et des données
 	public FenDetailClient(){		
@@ -54,25 +54,15 @@ public class FenDetailClient extends Stage {
 		bnOK.disableProperty().bind(Bindings.when(manque).then(true).otherwise(false));		
 		bnOK.setPrefWidth(100);
 		bnOK.setOnAction(e -> {
-			Clientihm cli = new Clientihm(
-				txtNom.getText(),
-				txtPrenom.getText(),
-				Integer.parseInt(txtReserv.getText()),
-				Integer.parseInt(txtEmplac.getText()),
-				txtTypeemplac.getText(),
-				txtTypeMH.getText(),
-				txtperiodreserv.getText()
-				);	
-			//todo : modifier ok
 			this.close();
 		});
 
-		bnAnnuler.setPrefWidth(100);
-		bnAnnuler.setOnAction(e -> {
+		bnSupprimer.setPrefWidth(100);
+		bnSupprimer.setOnAction(e -> {
 			this.close();
 		});
 
-		zoneBoutons.getChildren().addAll(bnOK, bnAnnuler);
+		zoneBoutons.getChildren().addAll(bnOK, bnSupprimer);
 		zoneBoutons.setSpacing(10);
 		racine.addRow(0,  lblNom, txtNom);
 		racine.addRow(1,  lblPrenom, txtPrenom);
@@ -85,6 +75,14 @@ public class FenDetailClient extends Stage {
 		racine.setHgap(10);
 		racine.setVgap(15);
 		racine.setPadding(new Insets(10));
+		
+		txtNom.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getNom());
+		txtPrenom.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getPrenom());
+		txtReserv.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getReservation()));
+		txtEmplac.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getNum_emplacement()));
+		txtTypeemplac.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getTypemplacement());
+		txtTypeMH.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getTypeMH());
+		txtperiodreserv.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getPeriode_reserv()));
 		return racine;
 	}
 }

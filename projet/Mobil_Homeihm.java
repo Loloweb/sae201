@@ -1,5 +1,7 @@
 package projet;
 
+import java.time.LocalDate;
+
 import javafx.beans.property.*;
 
 public class Mobil_Homeihm extends Reservationihm{
@@ -7,7 +9,7 @@ public class Mobil_Homeihm extends Reservationihm{
 	private FloatProperty tarif;
 
 	
-	public Mobil_Homeihm(String etat, String date_debut, String date_fin, int num_reservation, String categorie,
+	public Mobil_Homeihm(String etat, LocalDate date_debut, LocalDate date_fin, int num_reservation, String categorie,
 			float tarif, int numEmplacement) {
 		super(etat, date_debut, date_fin, num_reservation,numEmplacement);
 		this.categorie = new SimpleStringProperty(categorie);

@@ -26,7 +26,7 @@ public class Documentihm {
 	}
 
 	public void ajouterReservation(Reservationihm r) {
-		if (r.getNum_reservation()!=0 && r.getDate_debut().compareTo(null)!=0) {
+		if (r.getNum_reservation()!=0 && r.getDateDebut().compareTo(null)!=0) {
 			this.reserver = r;
 		}
 	}

@@ -1,34 +1,27 @@
 package projet;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.beans.property.*;
 
 public class Reservationihm {
 	private StringProperty etat;
-	private StringProperty date_debut;
-	private StringProperty date_fin;
+	private LocalDate date_debut;
+	private LocalDate date_fin;
 	private IntegerProperty num_reservation;
 	private IntegerProperty numEmplacement;
 	private ArrayList<Documentihm> MesDocuments;
 	
-	public Reservationihm(String etat, String date_debut, String date_fin, int num_reservation,int numEmplacement) {
+	public Reservationihm(String etat, LocalDate date_debut, LocalDate date_fin, int num_reservation,int numEmplacement) {
 		this.etat = new SimpleStringProperty(etat);
-		this.date_debut = new SimpleStringProperty(date_debut);
-		this.date_fin = new SimpleStringProperty(date_fin);
+		this.date_debut = date_debut;
+		this.date_fin = date_fin;
 		this.num_reservation = new SimpleIntegerProperty(num_reservation);
 		this.numEmplacement = new SimpleIntegerProperty(numEmplacement);
 	}
 
 	public String getEtat() {
 		return etat.get();
-	}
-
-	public String getDate_debut() {
-		return date_debut.get();
-	}
-
-	public String getDate_fin() {
-		return date_fin.get();
 	}
 
 	public int getNum_reservation() {
@@ -43,11 +36,11 @@ public class Reservationihm {
 		this.etat = etat;
 	}
 	
-	public void setDate_debut(StringProperty date_deb) {
+	public void setDate_debut(LocalDate date_deb) {
 		this.date_debut = date_deb;
 	}
 	
-	public void setDate_fin(StringProperty date_fin) {
+	public void setDate_fin(LocalDate date_fin) {
 		this.date_fin = date_fin;
 	}
 	
@@ -63,11 +56,11 @@ public class Reservationihm {
 		return this.etat;
 	}
 	
-	public StringProperty date_debProperty() {
+	public LocalDate getDateDebut() {
 		return this.date_debut;
 	}
 	
-	public StringProperty date_finProperty() {
+	public LocalDate getDateFin() {
 		return this.date_fin;
 	}
 	
