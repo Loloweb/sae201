@@ -4,17 +4,17 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.beans.binding.*;
 
 public class FenDetailClient extends Stage {
 	
-	// les composants du formulaire
+	// Variables
+	
 	private GridPane			racine			= new GridPane();
 	private HBox				zoneBoutons		= new HBox();
 	private Label 		lblID	= new Label("ID :");
@@ -36,7 +36,8 @@ public class FenDetailClient extends Stage {
 	private Button 				bnOK			= new Button("OK");
 	private Button 				bnSupprimer 		= new Button("Supprimer");
 	
-	// constructeur : initialisation de la fenetre et des données
+	//Constructeur 
+	
 	public FenDetailClient(){		
 		this.setTitle("Détail employé");
 		this.sizeToScene();
@@ -44,23 +45,41 @@ public class FenDetailClient extends Stage {
 		this.setScene(new Scene(creerContenu()));	
 	}
 	
+	//Création du Contenu du SceneGraph
+	
 	private Parent creerContenu() {
-		txtID.setDisable(true);
+		
+		//Méthode permettant le grisement d'un bouton avec des conditions
 		
 		BooleanBinding manque = Bindings.or(
 			Bindings.or(txtEmplac.textProperty().isEmpty(), txtNom.textProperty().isEmpty()),
 			Bindings.or(txtPrenom.textProperty().isEmpty(), txtReserv.textProperty().isEmpty())
 			);
-		bnOK.disableProperty().bind(Bindings.when(manque).then(true).otherwise(false));		
+		
+		//Caractéristiques des Boutons
+		
+		//Bouton OK
+		
 		bnOK.setPrefWidth(100);
 		bnOK.setOnAction(e -> {
 			this.close();
 		});
+		
+		//Bouton Supprimer
 
 		bnSupprimer.setPrefWidth(100);
 		bnSupprimer.setOnAction(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION,
+					"Supprimer le client?",ButtonType.YES, ButtonType.NO);
+			alert.setTitle("Suppression...");
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.isPresent() && result.get() == ButtonType.YES) {
+				Mainihm.getLesClients().remove(FenListeClients.getTableClients().getSelectionModel().getSelectedIndex()); 
+			}
 			this.close();
 		});
+		
+		//Ajout des Variables dans le GridPane
 
 		zoneBoutons.getChildren().addAll(bnOK, bnSupprimer);
 		zoneBoutons.setSpacing(10);
@@ -76,13 +95,18 @@ public class FenDetailClient extends Stage {
 		racine.setVgap(15);
 		racine.setPadding(new Insets(10));
 		
+		return racine;
+	}
+	
+	//Méthode d'accès aux données du Clients Sélectionné
+	
+	public void init() {
 		txtNom.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getNom());
 		txtPrenom.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getPrenom());
-		txtReserv.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getReservation()));
+		txtReserv.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getNum_reservation()));
 		txtEmplac.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getNum_emplacement()));
 		txtTypeemplac.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getTypemplacement());
 		txtTypeMH.setText(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getTypeMH());
 		txtperiodreserv.setText(String.valueOf(FenListeClients.getTableClients().getSelectionModel().getSelectedItem().getPeriode_reserv()));
-		return racine;
 	}
 }

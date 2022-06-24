@@ -1,11 +1,5 @@
 package projet;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -16,15 +10,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.input.MouseButton;
-import javafx.scene.text.Text;
 
 public class FenListeClients extends Stage {
 	
-	// les composants de la fenetre
+	//Variables
+	
 	private AnchorPane  		racine			= new AnchorPane();
 	private static TableView<Clientihm> 	tableClients	= new TableView<Clientihm>();
-	private TableView<Clientihm>	tableClientsTemp	= new TableView<Clientihm>();
+	private static TableView<Clientihm>	tableClientsTemp	= new TableView<Clientihm>();
 	private Button 				bnConsulter 		= new Button("Consulter");
 	private Button 				bnSupprimer 	= new Button("Supprimer");
 	private Button 				bnFermer 		= new Button("Fermer");
@@ -36,7 +29,8 @@ public class FenListeClients extends Stage {
 	
 	private ContextMenu menu = new ContextMenu(optionConsulter,new SeparatorMenuItem(),optionModifier,new SeparatorMenuItem(),optionSupprimer);
 
-	// constructeur : initialisation de la fenetre
+	//Constructeur
+	
 	public FenListeClients(){
 		this.setTitle("Gestion des clients");
 		this.setResizable(true);
@@ -46,8 +40,15 @@ public class FenListeClients extends Stage {
 		this.setScene(new Scene(creerContenu()));	
 	}
 	
+	//Création du Contenu du SceneGraph
+	
 	private Parent creerContenu() {
+		
+		//Méthode permettant le grisement d'un bouton avec des conditions
+		
 		BooleanBinding rien = Bindings.equal(getTableClients().getSelectionModel().selectedIndexProperty(), -1);
+		
+		//Création, ajout, et liaisons des différentes colonnes avec les données des CLients
 		
 		TableColumn<Clientihm,Integer> colonne1 = new TableColumn<Clientihm,Integer>("ID");
 		colonne1.setCellValueFactory(new PropertyValueFactory<Clientihm,Integer>("id_client"));	
@@ -61,21 +62,33 @@ public class FenListeClients extends Stage {
 		TableColumn<Clientihm,Integer> colonne4 = new TableColumn<Clientihm,Integer>("N° réservation");
 		colonne4.setCellValueFactory(new PropertyValueFactory<Clientihm, Integer>("num_reservation"));
 		getTableClients().getColumns().add(colonne4);
-		/* TableColumn<Reservation,Integer> colonne5 = new TableColumn<Reservation, Integer>("N° emplacement");
-		colonne5.setCellValueFactory(new PropertyValueFactory<Reservation, Integer>("numEmplacement"));
-		tableClients.getColumns().add(colonne5); */
+		TableColumn<Clientihm,String> colonne5 = new TableColumn<Clientihm,String>("Date de début de Réservation");
+		colonne5.setCellValueFactory(new PropertyValueFactory<Clientihm, String>("periode_reserv"));
+		getTableClients().getColumns().add(colonne5);
+		
+		//Caractéristqiues de la Séléction
 				
 		getTableClients().getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		getTableClients().setContextMenu(menu);
 			
 		// detection et traitement des evenements
+		
+		//Bouton Consulter
+		
 		bnConsulter.setPrefWidth(100);
-		bnConsulter.disableProperty().bind(Bindings.when(rien).then(true).otherwise(true));
+		bnConsulter.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
+		bnConsulter.setOnAction(e -> {
+			Mainihm.ouvrirDetails();
+		});
+		
+		//Bouton Date
 		
 		bnDate.setPrefWidth(100);
 		bnDate.setOnAction(e -> {
 			Mainihm.ouvrirDate();
 		});
+		
+		//Bouton Supprimer
 	
 		bnSupprimer.setPrefWidth(100);
 		bnSupprimer.disableProperty().bind(Bindings.when(rien).then(true).otherwise(false));
@@ -85,9 +98,11 @@ public class FenListeClients extends Stage {
 			alert.setTitle("Suppression...");
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.isPresent() && result.get() == ButtonType.YES) {
-				supprimerClient(getTableClients().getSelectionModel().getSelectedItem());
+				Mainihm.getLesClients().remove(tableClients.getSelectionModel().getSelectedIndex()); 
 			}
 		});
+		
+		//Bouton Fermer
 
 		bnFermer.setPrefWidth(100);
 		bnFermer.setOnAction(e -> System.exit(0));
@@ -105,37 +120,31 @@ public class FenListeClients extends Stage {
 		AnchorPane.setRightAnchor(bnSupprimer, 10.0);
 		AnchorPane.setBottomAnchor(bnFermer, 10.0);
 		AnchorPane.setRightAnchor(bnFermer, 10.0);
+		
 		racine.getChildren().addAll(getTableClients(), bnConsulter, bnDate, bnSupprimer, bnFermer);
+		
 		return racine;
 	}
 	
+	//Initialisation des différentes TableViews
+	
 	public void init() {
+		getTableClients().getItems().clear();
 		getTableClients().setItems(Mainihm.getLesClients());
 	}
 	
-	public void supprimerClient(Clientihm e) {
-//		lesClients.remove(e);
-//		boolean trouve = false;
-//		int i=0;
-//		while (!trouve && i<lesClients.size()) {
-//			if (lesClients.get(i).getId_client()==id){
-//				lesClients.remove(i);
-//				trouve = true;
-//			}
-//			i++;
-//		}
+	public void initTemp() {
+		getTableClientsTemp().getItems().clear();
+		getTableClientsTemp().setItems(Mainihm.getLesClientsTemp());
 	}
-	public void comparerDate() {
-		for (Clientihm c : this.getTableClients().getItems()) {
-			for (Reservationihm r : c.getReservation()) {
-				if (r.getDateDebut().isAfter(FenDate.getDateDebutld()) || r.getDateFin().isBefore(FenDate.getDateFinld())) {
-					tableClientsTemp.getItems().add(c);
-				}
-			}
-		} 
-	}
+	
+	//Getters des TableViews
 
 	public static TableView<Clientihm> getTableClients() {
 		return tableClients;
+	}
+	
+	public static TableView<Clientihm> getTableClientsTemp() {
+		return tableClientsTemp;
 	}
 }

@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import javafx.beans.property.*;
 
 public class Reservationihm {
+	
+	//Variables
+	
 	private StringProperty etat;
 	private LocalDate date_debut;
 	private LocalDate date_fin;
 	private IntegerProperty num_reservation;
 	private IntegerProperty numEmplacement;
 	private ArrayList<Documentihm> MesDocuments;
+	
+	//Constructeur
 	
 	public Reservationihm(String etat, LocalDate date_debut, LocalDate date_fin, int num_reservation,int numEmplacement) {
 		this.etat = new SimpleStringProperty(etat);
@@ -19,6 +24,8 @@ public class Reservationihm {
 		this.num_reservation = new SimpleIntegerProperty(num_reservation);
 		this.numEmplacement = new SimpleIntegerProperty(numEmplacement);
 	}
+	
+	//Getters java
 
 	public String getEtat() {
 		return etat.get();
@@ -31,6 +38,8 @@ public class Reservationihm {
 	public int getNumEmplacement() {
 		return numEmplacement.get();
 	}
+	
+	//Setters
 	
 	public void setEtat(StringProperty etat) {
 		this.etat = etat;
@@ -52,6 +61,8 @@ public class Reservationihm {
 		this.numEmplacement = num_emp;
 	}
 	
+	//Getters javaFX
+	
 	public StringProperty etatProperty() {
 		return this.etat;
 	}
@@ -72,11 +83,15 @@ public class Reservationihm {
 		return this.numEmplacement;
 	}
 	
+	//Méthode d'enregistrement d'un nouveau document dans l'arraylist
+	
 	public void enregistreDocument(Documentihm d) {
 		if (d.getEtat_Accompte().compareTo(null)!=0) {
 			MesDocuments.add(d);
 		}
 	}
+	
+	//Méthode d'archivage d'un nouveau document dans l'arraylist
 	
 	public void archiverDocument(Documentihm d) {
 		if(this.MesDocuments.size()>1) {

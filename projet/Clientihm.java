@@ -6,6 +6,8 @@ import javafx.beans.property.*;
 
 public class Clientihm {
 	
+	//Variables
+	
 	static int compteur = 0;
 	private IntegerProperty id_client;
 	private StringProperty nom;
@@ -16,6 +18,8 @@ public class Clientihm {
 	private StringProperty typeMH;
 	private StringProperty periode_reserv;
 	private ArrayList<Reservationihm> mesReservations;
+	
+	//Constructeur
 	
 	public Clientihm(String nom, String prenom, Integer num_reservation, Integer num_emplacement, String typemplacement, String typeMH, String periode_reserv) {
 		this.nom = new SimpleStringProperty(nom);
@@ -29,6 +33,10 @@ public class Clientihm {
 		this.mesReservations = new ArrayList<Reservationihm>();
 		compteur++;
 	}
+	
+	//Les Différentes Getteurs et Setters
+	
+	//Getteurs en variables Java
 
 	public int getId_client() {
 		return id_client.get();
@@ -61,6 +69,8 @@ public class Clientihm {
 	public String getPeriode_reserv() {
 		return periode_reserv.get();
 	}
+	
+	//Setters
 
 	public void setId_client(IntegerProperty id_client) {
 		this.id_client = id_client;
@@ -94,6 +104,8 @@ public class Clientihm {
 		this.periode_reserv = periode_reserv;
 	}
 	
+	//Getteurs en variables JavaFX
+	
 	public IntegerProperty id_clientProperty() {
 		return this.id_client;
 	}
@@ -126,11 +138,13 @@ public class Clientihm {
 		return this.periode_reserv;
 	}
 	
-	public void ajoutReservation(Reservationihm r) {
-		this.mesReservations.add(r);
-	}
-	
 	public ArrayList<Reservationihm> getReservation() {
 		return this.mesReservations;
+	}
+	
+	//Méthode d'ajout d'une Reservation dans l'ArrayList
+	
+	public void ajoutReservation(Reservationihm r) {
+		this.mesReservations.add(r);
 	}
 }

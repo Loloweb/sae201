@@ -5,9 +5,13 @@ import java.time.LocalDate;
 import javafx.beans.property.*;
 
 public class Mobil_Homeihm extends Reservationihm{
+	
+	//Variables
+	
 	private StringProperty categorie;
 	private FloatProperty tarif;
-
+	
+	//Constructeur
 	
 	public Mobil_Homeihm(String etat, LocalDate date_debut, LocalDate date_fin, int num_reservation, String categorie,
 			float tarif, int numEmplacement) {
@@ -15,6 +19,8 @@ public class Mobil_Homeihm extends Reservationihm{
 		this.categorie = new SimpleStringProperty(categorie);
 		this.tarif = new SimpleFloatProperty(tarif);
 	}
+	
+	//Getters java
 
 	public String getCategorie() {
 		return categorie.get();
@@ -24,6 +30,8 @@ public class Mobil_Homeihm extends Reservationihm{
 		return tarif.get();
 	}
 	
+	//Setters
+	
 	public void setCategorie(StringProperty categorie) {
 		this.categorie = categorie;
 	}
@@ -31,6 +39,8 @@ public class Mobil_Homeihm extends Reservationihm{
 	public void setTarif(FloatProperty tarif) {
 		this.tarif = tarif;
 	}
+	
+	//Getters javaFX
 	
 	public StringProperty categorieProperty() {
 		return this.categorie;

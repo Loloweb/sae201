@@ -2,25 +2,23 @@ package projet;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Optional;
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 public class FenDate extends Stage{
+	
+	//Variables
+	
 	private GridPane 		racine 			= new GridPane();
 	private static DatePicker		dpDateDebut		= new DatePicker();
 	private static DatePicker		dpDateFin		= new DatePicker();
 	private Button 			bnOK			= new Button("OK");
+	
+	//Constructeur
 
 	public FenDate() {
 		this.sizeToScene();
@@ -30,6 +28,8 @@ public class FenDate extends Stage{
 		this.setMinHeight(100);
 		this.setResizable(false);
 	}
+	
+	//Création du Contenu du SceneGraph
 	
 	private Parent creerContenu() {
 		dpDateDebut.setValue(LocalDate.now());
@@ -47,11 +47,26 @@ public class FenDate extends Stage{
 		
 		bnOK.setOnAction(e -> {
 			System.out.println(getDateDebut());
+				comparerDate();
 				this.close();
 		});
 		
 		return racine;
 	}
+	
+	//Méthode de Comparaison des dates permettant de transférer les Clients dans une table Temporaire
+	
+	public void comparerDate() {
+		for (Clientihm c : FenListeClients.getTableClients().getItems()) {
+			for (Reservationihm r : c.getReservation()) {
+				if (r.getDateDebut().isAfter(FenDate.getDateDebutld()) || r.getDateFin().isBefore(FenDate.getDateFinld())) {
+					FenListeClients.getTableClientsTemp().getItems().add(c);
+				}
+			}
+		} 
+	}
+	
+	//Getters des dates en LocalDate
 	
 	public static LocalDate getDateDebutld() {
 		return dpDateDebut.getValue();
@@ -61,11 +76,15 @@ public class FenDate extends Stage{
 		return dpDateFin.getValue();
 	}
 	
+	//Convertisseurs des LocalDate en String
+	
 	public static String Convertisseur(LocalDate d) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-mm-yyyy");
 		String dateformatter = d.format(formatter);
 		return dateformatter;
 	}
+	
+	//Getters des dates en String
 	
 	public static String getDateDebut() {
 		return Convertisseur(getDateDebutld());

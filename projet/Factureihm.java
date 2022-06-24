@@ -4,10 +4,14 @@ import javafx.beans.property.*;
 
 public class Factureihm extends Documentihm {
 	
+	//Variables
+	
 	private FloatProperty tarif_accompte;
 	private FloatProperty tarif_reservation;
 	private StringProperty libelle_prestation;
 	private Clientihm regle;
+	
+	//Constructeur
 	
 	public Factureihm(String etat_Accompte, boolean reservation_payee, float tarif_accompte, float tarif_reservation,
 			String libelle_prestation) {
@@ -16,6 +20,8 @@ public class Factureihm extends Documentihm {
 		this.tarif_reservation = new SimpleFloatProperty(tarif_reservation);
 		this.libelle_prestation = new SimpleStringProperty(libelle_prestation);
 	}
+	
+	//Getters java
 
 	public float getTarif_accompte() {
 		return tarif_accompte.get();
@@ -29,6 +35,8 @@ public class Factureihm extends Documentihm {
 		return libelle_prestation.get();
 	}
 	
+	//Setters
+	
 	public void setTarif_accompte(FloatProperty tarif) {
 		this.tarif_accompte = tarif;
 	}
@@ -40,6 +48,8 @@ public class Factureihm extends Documentihm {
 	public void setLibelle_prestation(StringProperty libelle) {
 		this.libelle_prestation = libelle;
 	}
+	
+	//Getters javaFX
 	
 	public FloatProperty tarif_accompteProperty() {
 		return this.tarif_accompte;
@@ -56,6 +66,8 @@ public class Factureihm extends Documentihm {
 	public Clientihm getRegle() {
 		return this.regle;
 	}
+	
+	//Méthode de Setters d'un Client associé à une facture
 	
 	public void ClientRegle(Clientihm c) {
 		this.regle = c;
